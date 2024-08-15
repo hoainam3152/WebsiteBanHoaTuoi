@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Documents\\Tai_lieu_HK5\\Tai_lieu_Lap_trinh_web\\BT_LTW\\NguyenHoaiNam_VuNgocTuanTu_QLShopBanHoa\\WebsiteHoaTuoi1080\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{49CBBD3F-266A-41C6-95DB-2BFECA093D96}|WebsiteHoaTuoi1080\\WebsiteHoaTuoi1080.csproj|d:\\documents\\tai_lieu_hk5\\tai_lieu_lap_trinh_web\\bt_ltw\\nguyenhoainam_vungoctuantu_qlshopbanhoa\\websitehoatuoi1080\\websitehoatuoi1080\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49CBBD3F-266A-41C6-95DB-2BFECA093D96}|WebsiteHoaTuoi1080\\WebsiteHoaTuoi1080.csproj|solutionrelative:websitehoatuoi1080\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\Documents\\Tai_lieu_HK5\\Tai_lieu_Lap_trinh_web\\BT_LTW\\NguyenHoaiNam_VuNgocTuanTu_QLShopBanHoa\\WebsiteHoaTuoi1080\\WebsiteHoaTuoi1080\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "WebsiteHoaTuoi1080\\Controllers\\HomeController.cs",
+              "ToolTip": "D:\\Documents\\Tai_lieu_HK5\\Tai_lieu_Lap_trinh_web\\BT_LTW\\NguyenHoaiNam_VuNgocTuanTu_QLShopBanHoa\\WebsiteHoaTuoi1080\\WebsiteHoaTuoi1080\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "WebsiteHoaTuoi1080\\Controllers\\HomeController.cs",
+              "ViewState": "AQIAADcAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-15T08:20:21.924Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

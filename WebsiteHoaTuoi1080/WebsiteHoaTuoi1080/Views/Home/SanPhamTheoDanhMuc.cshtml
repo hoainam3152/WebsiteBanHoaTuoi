@@ -1,0 +1,241 @@
+﻿@model List<WebsiteHoaTuoi1080.Models.FlowerDetail>
+
+@{
+    ViewBag.Title = @ViewBag.TenDM;
+    Layout = "~/Views/Shared/_LayoutPageIndexHome.cshtml";
+}
+
+<section class="pt-6 pb-4 draggable" draggable="true">
+    <div class="container">
+        <div class="col-12 text-center">
+            <h3 class="mb-5" spellcheck="false">@ViewBag.TenDM</h3>
+        </div>
+        <div id="display-control" class="row">
+            <div class="col-lg-4 offset-lg-5 col-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <label for="input-sort" class="input-group-text">Sắp xếp theo</label> 
+                            <select id="input-sort" class="form-select" onchange="location = this.value;">
+                                <option value="https://www.Loopple.vn/hoa-khai-truong?sort=p.sort_order&amp;order=ASC">Mặc định</option>
+                                <option value="https://www.Loopple.vn/hoa-khai-truong?sort=pd.name&amp;order=ASC">Tên (A - Z)</option>
+                                <option value="https://www.Loopple.vn/hoa-khai-truong?sort=pd.name&amp;order=DESC">Tên (Z - A)</option>
+                                <option value="https://www.Loopple.vn/hoa-khai-truong?sort=p.price&amp;order=ASC">Giá (Thấp> Cao)</option>
+                                <option value="https://www.Loopple.vn/hoa-khai-truong?sort=p.price&amp;order=DESC">Giá (Cao> Thấp)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            <div class="col-lg-2 col-6">
+                    <div class="input-group mb-3">
+                        <input id="timKiemInputSPTDM" class="form-control" type="text" name="timKiem" value="@ViewBag.TimKiemSPTDM" placeholder="Tìm kiếm...">
+                        <a id="timKiemLinkSPTDM" href="#" class="btn btn-outline-secondary" style="margin-bottom:0"><i class="fas fa-search"></i></a>
+                    </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            @foreach (var item in @Model)
+            {
+                <div class="col-lg-3 mb-lg-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                            <a href="/Home/ThongTinSanPham/?maSP=@item.FlowerID" class="d-block">
+                                <img src="/Image/@item.Path" class="img-fluid border-radius-lg shadow">
+                            </a>
+                        </div>
+                        <div class="card-body pt-3">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <span class="text-sm">Hoa</span>
+                                    <a href="/Home/ThongTinSanPham/?maSP=@item.FlowerID" class="d-block">
+                                        <h4 class="card-description font-weight-bolder text-dark mb-4">
+                                            @item.FlowerName
+                                        </h4>
+                                    </a>
+                                </div>
+                                <div class="ms-auto">
+                                    <a href="javascript:;" class="btn btn-link text-dark p-0">
+                                        <i class="fa fa-star text-lg" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                @{
+                double amount = @item.Price;
+                string formattedAmount = amount.ToString("N0") + "VND";
+                                }
+                                <h5 class="mb-0 font-weight-bolder">@formattedAmount</h5>
+                            </div>
+                            @if (Session["user"] != null)
+                            {
+                                <button type="button" class="ajax-add-to-cart btn btn-outline-dark mb-0" data-id="@item.FlowerID">Thêm vào giỏ hàng</button>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Login","Account")" class="btn btn-outline-dark mb-0">Thêm vào giỏ hàng</a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row mb-4">
+            @foreach (var item in @Model)
+            {
+                <div class="col-lg-3 mb-lg-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                            <a href="javascript:;" class="d-block">
+                                <img src="/Image/@item.Path" class="img-fluid border-radius-lg shadow">
+                            </a>
+                        </div>
+                        <div class="card-body pt-3">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <span class="text-sm">Hoa</span>
+                                    <h4 class="card-description font-weight-bolder text-dark mb-4">
+                                        @item.FlowerName
+                                    </h4>
+                                </div>
+                                <div class="ms-auto">
+                                    <a href="javascript:;" class="btn btn-link text-dark p-0">
+                                        <i class="fa fa-star text-lg" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                @{
+                double amount = @item.Price;
+                string formattedAmount = amount.ToString("N0") + "VND";
+                                }
+                                <h5 class="mb-0 font-weight-bolder">@formattedAmount</h5>
+
+                            </div>
+                            <a href="javascript:;" class="btn btn-outline-dark mb-0">Thêm vào giỏ hàng</a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row mb-4">
+            @foreach (var item in @Model)
+            {
+                <div class="col-lg-3 mb-lg-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                            <a href="javascript:;" class="d-block">
+                                <img src="/Image/@item.Path" class="img-fluid border-radius-lg shadow">
+                            </a>
+                        </div>
+                        <div class="card-body pt-3">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <span class="text-sm">Hoa</span>
+                                    <h4 class="card-description font-weight-bolder text-dark mb-4">
+                                        @item.FlowerName
+                                    </h4>
+                                </div>
+                                <div class="ms-auto">
+                                    <a href="javascript:;" class="btn btn-link text-dark p-0">
+                                        <i class="fa fa-star text-lg" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                @{
+                double amount = @item.Price;
+                string formattedAmount = amount.ToString("N0") + "VND";
+                                }
+                                <h5 class="mb-0 font-weight-bolder">@formattedAmount</h5>
+
+                            </div>
+                            <a href="javascript:;" class="btn btn-outline-dark mb-0">Thêm vào giỏ hàng</a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row mb-4">
+            @foreach (var item in @Model)
+            {
+                <div class="col-lg-3 mb-lg-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                            <a href="javascript:;" class="d-block">
+                                <img src="/Image/@item.Path" class="img-fluid border-radius-lg shadow">
+                            </a>
+                        </div>
+                        <div class="card-body pt-3">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <span class="text-sm">Hoa</span>
+                                    <h4 class="card-description font-weight-bolder text-dark mb-4">
+                                        @item.FlowerName
+                                    </h4>
+                                </div>
+                                <div class="ms-auto">
+                                    <a href="javascript:;" class="btn btn-link text-dark p-0">
+                                        <i class="fa fa-star text-lg" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                @{
+                double amount = @item.Price;
+                string formattedAmount = amount.ToString("N0") + "VND";
+                                }
+                                <h5 class="mb-0 font-weight-bolder">@formattedAmount</h5>
+                            </div>
+                            <a href="javascript:;" class="btn btn-outline-dark mb-0">Thêm vào giỏ hàng</a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row mb-4">
+            @foreach (var item in @Model)
+            {
+                <div class="col-lg-3 mb-lg-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                            <a href="javascript:;" class="d-block">
+                                <img src="/Image/@item.Path" class="img-fluid border-radius-lg shadow">
+                            </a>
+                        </div>
+                        <div class="card-body pt-3">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <span class="text-sm">Hoa</span>
+                                    <h4 class="card-description font-weight-bolder text-dark mb-4">
+                                        @item.FlowerName
+                                    </h4>
+                                </div>
+                                <div class="ms-auto">
+                                    <a href="javascript:;" class="btn btn-link text-dark p-0">
+                                        <i class="fa fa-star text-lg" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                @{
+                double amount = @item.Price;
+                string formattedAmount = amount.ToString("N0") + "VND";
+                                }
+                                <h5 class="mb-0 font-weight-bolder">@formattedAmount</h5>
+
+                            </div>
+                            <a href="javascript:;" class="btn btn-outline-dark mb-0">Thêm vào giỏ hàng</a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</section>
+
+@Html.Partial("~/Views/Shared/PartialView/_AddToCartScript_PartialView.cshtml")

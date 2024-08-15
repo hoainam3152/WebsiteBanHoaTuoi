@@ -1,0 +1,278 @@
+﻿@{
+    WebsiteHoaTuoi1080.Models.FlowerStoreEntities db = new WebsiteHoaTuoi1080.Models.FlowerStoreEntities();
+    List<WebsiteHoaTuoi1080.Models.Category> listDM = db.Categories.ToList();
+}
+
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="https://www.loopple.com/img/favicon.png">
+
+    <title>@ViewBag.Title</title>
+
+    <link href="https://www.loopple.com/css/app.css" rel="stylesheet">
+
+    <link href="https://www.loopple.com/css/vendor/choices-navbar.min.css" rel="stylesheet">
+
+    <!-- CSS Links -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://demos.creative-tim.com/soft-ui-design-system/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="https://demos.creative-tim.com/soft-ui-design-system/assets/css/nucleo-svg.css" rel="stylesheet" />
+
+
+    <!-- Main CSS Link -->
+    <link rel="stylesheet" href="https://cdn.statically.io/gh/Loopple/loopple-public-assets/main/soft-ui-design-system/css/soft-ui-design-system.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="navbar bg-gradient-dark py-1 draggable" draggable="true">
+        <div class="container">
+            <div class="d-flex w-lg-50 w-100 text-lg-start text-center justify-content-lg-start justify-content-center mb-lg-0 mb-2">
+                <a href="javascript:;" class="text-secondary me-xl-4 me-3">
+                    <span class="text-lg fab fa-facebook" aria-hidden="true"></span>
+                </a>
+                <a href="javascript:;" class="text-secondary me-xl-4 me-3">
+                    <span class="text-lg fab fa-twitter" aria-hidden="true"></span>
+                </a>
+                <a href="javascript:;" class="text-secondary me-xl-4 me-3">
+                    <span class="text-lg fab fa-instagram" aria-hidden="true"></span>
+                </a>
+                <a href="#">
+                    <i class="fa fa-phone text-sm text-white ms-auto" aria-hidden="true"></i>
+                    <span class="text-sm text-white ms-2">1900 633 045</span>
+                </a>
+            </div>
+            <div class="d-flex align-items-center ms-lg-auto w-lg-50 w-100">
+                <div class="input-group mb-3" style="margin-bottom:0">
+                    <input id="timKiemInput" class="form-control" type="text" name="timKiem" value="@ViewBag.TimKiem" placeholder="Tìm kiếm...">
+                    <a id="timKiemLink" href="#" class="btn btn-outline-secondary" style="margin-bottom:0"><i class="fas fa-search"></i></a>
+                </div>
+                @if (Session["user"] != null)
+                {
+                    <a href="@Url.Action("Index","Card")" class="nav-link ps-2 cursor-pointer text-sm text-white ms-4">
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Login","Account")" class="nav-link ps-2 cursor-pointer text-sm text-white ms-4">
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    </a>
+                }
+                <i class="fa-solid fa-user text-sm text-white ms-4"></i>
+                @{var customer = (WebsiteHoaTuoi1080.Models.CUSTOMER)HttpContext.Current.Session["user"];}
+                @if (customer != null)
+                {
+                    <span class="text-sm text-white ms-2 me-lg-0 me-auto"></span><span class="text-sm text-white ms-2">@customer.CustomerName</span>
+                }
+                else
+                {
+                     <span class="text-sm text-white ms-2 me-lg-0 me-auto"><a href="#" class="__cf_email__" data-cfemail="6f0300001f1f030a2f0300001f1f030a410c0002">[email&#160;protected]</a></span>
+                }
+            </div>
+        </div>
+    </div><nav class="navbar navbar-expand-lg navbar-light bg-white py-3 draggable" draggable="true">
+        <div class="container">
+            <a class="navbar-brand w-8" href="@Url.Action("Index","Home")" data-config-id="brand">
+                <img src="https://www.loopple.com/img/loopple-logo.png" width="80" alt="">
+                @*<i class="fa-solid fa-store" style="color: #00009a; font-size: 20px; "></i>
+            <span class="h4 fw-bold mb-0" style="color: #00009a;">Shop Hoa Tươi 1080</span>*@
+            </a>
+
+            <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon mt-2">
+                    <span class="navbar-toggler-bar bar1"></span>
+                    <span class="navbar-toggler-bar bar2"></span>
+                    <span class="navbar-toggler-bar bar3"></span>
+                </span>
+            </button>
+            <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0" id="navigation">
+                <ul class="navbar-nav navbar-nav-hover ms-auto">
+                    @foreach (var item in @listDM)
+                    {
+                        <li class="nav-item mx-2">
+                            <a href="/Home/SanPhamTheoDanhMuc/?maDM=@item.CategoryID" class="nav-link ps-2 cursor-pointer">
+                                @item.CategoryName
+                            </a>
+                        </li>
+                    }
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item ms-2">
+                        @if (customer != null)
+                        {
+                            <a href="@Url.Action("Logout", "Account")" class="btn bg-gradient-dark mb-0">
+                            Đăng Xuất
+                        </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Login", "Account")" class="btn bg-gradient-dark mb-0">
+                            Đăng Nhập
+                        </a>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div>
+        @RenderBody()
+    </div>
+    <footer class="footer py-5 draggable" draggable="true">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 mb-5 mb-lg-0">
+                    <h6 class="text-uppercase mb-2">
+                        <i class="fa-solid fa-store" style="font-size: 20px; "></i>
+                        Shop Bán Hoa 1080
+                    </h6>
+                    <p class="mb-4 pb-2">
+                        Hotline: 1900 633 045 - 0865 160 360.
+                    </p>
+                    <a href="javascript:;" class="text-secondary me-xl-4 me-3">
+                        <span class="text-lg fab fa-facebook" aria-hidden="true"></span>
+                    </a>
+                    <a href="javascript:;" class="text-secondary me-xl-4 me-3">
+                        <span class="text-lg fab fa-twitter" aria-hidden="true"></span>
+                    </a>
+                    <a href="javascript:;" class="text-secondary me-xl-4 me-3">
+                        <span class="text-lg fab fa-instagram" aria-hidden="true"></span>
+                    </a>
+                    <a href="javascript:;" class="text-secondary me-xl-4 me-3">
+                        <span class="text-lg fab fa-pinterest" aria-hidden="true"></span>
+                    </a>
+                    <a href="javascript:;" class="text-secondary me-xl-4 me-3">
+                        <span class="text-lg fab fa-github" aria-hidden="true"></span>
+                    </a>
+                </div>
+                <div class="col-md-2 col-6 ms-lg-auto mb-md-0 mb-4">
+                    <h6 class="text-sm">THÔNG TIN</h6>
+                    <ul class="flex-column ms-n3 nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="javascript:void(0);">
+                                Giới Thiệu
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="javascript:;">
+                                Liên Hệ
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="javascript:;">
+                                Xử Lý Khiếu Nại
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="javascript:;">
+                                Blog
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-2 col-6 mb-md-0 mb-4">
+                    <h6 class="text-sm">CHĂM SÓC KHÁCH HÀNG</h6>
+                    <ul class="flex-column ms-n3 nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="javascript:;">
+                                Chính Sách Vận Chuyển
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="javascript:;">
+                                Hình Thức Thanh Toán
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="javascript:;">
+                                Bảo Mật Thông Tin
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="javascript:;">
+                                Chính Sách Hoàn Tiền
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-2 col-6 mb-md-0 mb-4">
+                    <h6 class="text-sm">Chi nhánh TP.HCM</h6>
+                    <ul class="flex-column ms-n3 nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="javascript:;">
+                                <span style="font-weight:bold">Cửa Hàng TP HCM:</span> 225/3 Nguyễn Đình Chiểu, Phường 5, Quận 3, TP.HCM
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="javascript:;">
+                                <span style="font-weight:bold">Văn Phòng TP HCM:</span> 412 Lê Hồng Phong, Phường 1, Quận 10, TP.HCM
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-2 col-6 mb-md-0 mb-4">
+                    <h6 class="text-sm">Chi nhánh Hà Nội</h6>
+                    <ul class="flex-column ms-n3 nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="javascript:;">
+                                <span style="font-weight:bold">Cửa Hàng Hà Nội:</span> 65 Trần Phú, Ba Đình, Hà Nội
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" href="javascript:;">
+                                CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ ZAS
+                                Mã số thuế: 0313630426
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="horizontal dark mt-lg-5 mt-4 mb-sm-4 mb-1">
+            <div class="row">
+                <div class="col-8 mx-lg-auto text-lg-center">
+                    <p class="text-sm text-secondary">
+                        Shopbanhoa1080 © 2022 &amp; All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Lắng nghe sự kiện click trên thẻ <a>
+        document.getElementById("timKiemLink").addEventListener("click", function (event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
+
+            var timKiemValue = document.getElementById("timKiemInput").value; // Lấy giá trị từ trường <input>
+            var trangValue = 1; // Giá trị trang mặc định
+
+            // Tạo URL mới với giá trị timKiem và trang
+            var url = "/Home/TimKiemSanPham/?timKiem=" + encodeURIComponent(timKiemValue) + "&trang=" + trangValue;
+
+            // Chuyển hướng đến URL mới
+            window.location.href = url;
+        });
+    </script>
+
+</body>
+</html>

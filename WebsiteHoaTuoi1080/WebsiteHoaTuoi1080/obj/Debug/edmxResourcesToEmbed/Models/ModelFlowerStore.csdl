@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FlowerStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="FlowerDetails" Relationship="Self.FK_FlowerDetails_Categories" FromRole="Categories" ToRole="FlowerDetails" />
+  </EntityType>
+  <EntityType Name="CUSTOMER">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CustomerEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CustomerNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+    <NavigationProperty Name="Login" Relationship="Self.FK_CUSTOMER_LOGIN" FromRole="CUSTOMER" ToRole="Logins" />
+    <NavigationProperty Name="Cards" Relationship="FlowerStoreModel.FK_CARDS_CUSTOMER" FromRole="CUSTOMER" ToRole="Card" />
+    <NavigationProperty Name="Ordererds" Relationship="FlowerStoreModel.FK_Ordererd_Customer" FromRole="CUSTOMER" ToRole="Ordererd" />
+  </EntityType>
+  <EntityType Name="EMPLOYEE">
+    <Key>
+      <PropertyRef Name="EmployeeID" />
+    </Key>
+    <Property Name="EmployeeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="EmployeeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Sex" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="EmployeeAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EmployeeNumber" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DateOfBirth" Type="DateTime" Precision="3" />
+    <Property Name="UserId" Type="Int32" />
+    <NavigationProperty Name="Login" Relationship="Self.FK_EMPLOYEES_LOGIN" FromRole="EMPLOYEES" ToRole="Logins" />
+  </EntityType>
+  <EntityType Name="FlowerDetail">
+    <Key>
+      <PropertyRef Name="FlowerID" />
+    </Key>
+    <Property Name="FlowerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FlowerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Path" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Price" Type="Double" Nullable="false" />
+    <Property Name="Describe" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Ingredients" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryID" Type="Int32" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_FlowerDetails_Categories" FromRole="FlowerDetails" ToRole="Categories" />
+    <NavigationProperty Name="Cards" Relationship="FlowerStoreModel.FK_CARDS_FlowerDetails" FromRole="FlowerDetail" ToRole="Card" />
+  </EntityType>
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Roles" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="CUSTOMERs" Relationship="Self.FK_CUSTOMER_LOGIN" FromRole="Logins" ToRole="CUSTOMER" />
+    <NavigationProperty Name="EMPLOYEES" Relationship="Self.FK_EMPLOYEES_LOGIN" FromRole="Logins" ToRole="EMPLOYEES" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_FlowerDetails_Categories">
+    <End Role="Categories" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="FlowerDetails" Type="Self.FlowerDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="FlowerDetails">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CUSTOMER_LOGIN">
+    <End Role="Logins" Type="Self.Login" Multiplicity="0..1" />
+    <End Role="CUSTOMER" Type="Self.CUSTOMER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Logins">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="CUSTOMER">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EMPLOYEES_LOGIN">
+    <End Role="Logins" Type="Self.Login" Multiplicity="0..1" />
+    <End Role="EMPLOYEES" Type="Self.EMPLOYEE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Logins">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="EMPLOYEES">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FlowerStoreEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="CUSTOMERs" EntityType="Self.CUSTOMER" />
+    <EntitySet Name="EMPLOYEES" EntityType="Self.EMPLOYEE" />
+    <EntitySet Name="FlowerDetails" EntityType="Self.FlowerDetail" />
+    <EntitySet Name="Logins" EntityType="Self.Login" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_FlowerDetails_Categories" Association="Self.FK_FlowerDetails_Categories">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="FlowerDetails" EntitySet="FlowerDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CUSTOMER_LOGIN" Association="Self.FK_CUSTOMER_LOGIN">
+      <End Role="Logins" EntitySet="Logins" />
+      <End Role="CUSTOMER" EntitySet="CUSTOMERs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EMPLOYEES_LOGIN" Association="Self.FK_EMPLOYEES_LOGIN">
+      <End Role="Logins" EntitySet="Logins" />
+      <End Role="EMPLOYEES" EntitySet="EMPLOYEES" />
+    </AssociationSet>
+    <EntitySet Name="Cards" EntityType="FlowerStoreModel.Card" />
+    <AssociationSet Name="FK_CARDS_CUSTOMER" Association="FlowerStoreModel.FK_CARDS_CUSTOMER">
+      <End Role="CUSTOMER" EntitySet="CUSTOMERs" />
+      <End Role="Card" EntitySet="Cards" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CARDS_FlowerDetails" Association="FlowerStoreModel.FK_CARDS_FlowerDetails">
+      <End Role="FlowerDetail" EntitySet="FlowerDetails" />
+      <End Role="Card" EntitySet="Cards" />
+    </AssociationSet>
+    <EntitySet Name="Ordererds" EntityType="FlowerStoreModel.Ordererd" />
+    <EntitySet Name="OrdersDetails" EntityType="FlowerStoreModel.OrdersDetail" />
+    <AssociationSet Name="FK_Ordererd_Customer" Association="FlowerStoreModel.FK_Ordererd_Customer">
+      <End Role="CUSTOMER" EntitySet="CUSTOMERs" />
+      <End Role="Ordererd" EntitySet="Ordererds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrdersDetails_Ordererd" Association="FlowerStoreModel.FK_OrdersDetails_Ordererd">
+      <End Role="Ordererd" EntitySet="Ordererds" />
+      <End Role="OrdersDetail" EntitySet="OrdersDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Card">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+      <PropertyRef Name="FlowerID" />
+    </Key>
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="FlowerID" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Double" Nullable="false" />
+    <Property Name="SumPrice" Type="Double" Nullable="false" />
+    <NavigationProperty Name="CUSTOMER" Relationship="FlowerStoreModel.FK_CARDS_CUSTOMER" FromRole="Card" ToRole="CUSTOMER" />
+    <NavigationProperty Name="FlowerDetail" Relationship="FlowerStoreModel.FK_CARDS_FlowerDetails" FromRole="Card" ToRole="FlowerDetail" />
+    <Property Name="FlowerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Path" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_CARDS_CUSTOMER">
+    <End Type="FlowerStoreModel.CUSTOMER" Role="CUSTOMER" Multiplicity="1" />
+    <End Type="FlowerStoreModel.Card" Role="Card" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CUSTOMER">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="Card">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CARDS_FlowerDetails">
+    <End Type="FlowerStoreModel.FlowerDetail" Role="FlowerDetail" Multiplicity="1" />
+    <End Type="FlowerStoreModel.Card" Role="Card" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FlowerDetail">
+        <PropertyRef Name="FlowerID" />
+      </Principal>
+      <Dependent Role="Card">
+        <PropertyRef Name="FlowerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Ordererd">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ReceiverName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ReceiverPhone" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="ReceiverAddress" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="TotalPrice" Type="Double" Nullable="false" />
+    <NavigationProperty Name="CUSTOMER" Relationship="FlowerStoreModel.FK_Ordererd_Customer" FromRole="Ordererd" ToRole="CUSTOMER" />
+    <NavigationProperty Name="OrdersDetails" Relationship="FlowerStoreModel.FK_OrdersDetails_Ordererd" FromRole="Ordererd" ToRole="OrdersDetail" />
+  </EntityType>
+  <EntityType Name="OrdersDetail">
+    <Key>
+      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="FlowerID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="FlowerID" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Double" Nullable="false" />
+    <Property Name="SumPrice" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Ordererd" Relationship="FlowerStoreModel.FK_OrdersDetails_Ordererd" FromRole="OrdersDetail" ToRole="Ordererd" />
+  </EntityType>
+  <Association Name="FK_Ordererd_Customer">
+    <End Type="FlowerStoreModel.CUSTOMER" Role="CUSTOMER" Multiplicity="1" />
+    <End Type="FlowerStoreModel.Ordererd" Role="Ordererd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CUSTOMER">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="Ordererd">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrdersDetails_Ordererd">
+    <End Type="FlowerStoreModel.Ordererd" Role="Ordererd" Multiplicity="1" />
+    <End Type="FlowerStoreModel.OrdersDetail" Role="OrdersDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ordererd">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="OrdersDetail">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

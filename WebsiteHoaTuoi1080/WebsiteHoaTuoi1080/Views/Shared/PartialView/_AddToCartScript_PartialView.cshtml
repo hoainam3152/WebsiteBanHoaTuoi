@@ -1,0 +1,34 @@
+﻿<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".ajax-add-to-cart").click(function () {
+            $.ajax({
+                url: "/Card/ThemVaoGioHang",
+                data: {
+                    maSP: $(this).data("id"),
+                    soLuongMua: 1,
+                },
+                success: function (data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thêm giỏ hàng thành công',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    console.log(data.soLuong);
+                    $("#cart_count").html(data.soLuong);
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Thêm giỏ hàng thất bại',
+                        text: 'Vui lòng thử lại',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        });
+    });
+</script>

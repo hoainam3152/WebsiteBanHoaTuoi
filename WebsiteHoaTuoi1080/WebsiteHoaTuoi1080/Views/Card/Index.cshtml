@@ -1,0 +1,98 @@
+﻿@model List<WebsiteHoaTuoi1080.Models.Card>
+
+    @{
+        ViewBag.Title = "Giỏ Hàng";
+        Layout = "~/Views/Shared/_LayoutPageIndexHome.cshtml";
+    }
+
+<section class="ftco-section" style="margin-top:20px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="h5 mb-4">Giỏ Hàng</h3>
+                <hr />
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>Sản Phẩm</th>
+                                <th>Giá Bán</th>
+                                <th>Số Lượng</th>
+                                <th>Tổng cộng</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in @Model)
+                            {
+                                <tr class="alert" role="alert">
+                                <td>
+                                    <img src="~/Image/@item.Path"
+                                         alt=""
+                                         style="width: 100px; height: 100px" />
+                                </td>
+                                <td>
+                                    <div class="email">
+                                        <p>@item.FlowerName</p>
+                                    </div>
+                                </td>
+                                    @{string price = @item.Price.ToString("N0") + "VND";}
+                                <td>@price</td>
+                                <td class="quantity">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <a href="~/Card/tangSoLuong/?maSP=@item.FlowerID" class="btn btn-primary btn-square">+</a>
+                                        </span>
+                                        <span class="input-group-btn">
+                                            <input type="number" name="quantity" class="quantity form-control input-number" value="@item.Quantity" min="1" max="100" readonly style="text-align: center">
+                                        </span>
+                                            <span class="input-group-btn">
+                                                <a href="~/Card/giamSoLuong/?maSP=@item.FlowerID" class="btn btn-primary btn-square">-</a>
+                                            </span>
+                                    </div>
+                                </td>
+                                    @{string sumPrice = @item.SumPrice.ToString("N0") + "VND";}
+                                <td>@sumPrice</td>
+                                <td>
+                                    <a href="~/Card/xoaSanPhamGioHang/?maSP=@item.FlowerID" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <hr />
+                @{
+                    double totalPrice = ViewBag.TotalPrice;
+                  }
+                <h5 class="h5 mb-4">Tổng thanh toán: @totalPrice.ToString("N0")<span>VND</span></h5>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ftco-section">
+    <div class="container">
+        <hr />
+        <h3 class="h5 mb-4">Thông Tin Người Nhận</h3>
+        <form class="row g-3" action="@Url.Action("xacNhanHoaDon","Card")" method="post">
+            <div class="col-md-6">
+                <label for="ReceiverName" class="form-label">Họ Tên</label>
+                <input type="text" class="form-control" name="ReceiverName" id="ReceiverName" title="Vui lòng điền họ tên người nhận" required>
+            </div>
+            <div class="col-md-6">
+                <label for="ReceiverNumber" class="form-label">Số Điện Thoại</label>
+                <input type="tel" class="form-control" id="ReceiverNumber" name="ReceiverNumber" pattern="[0-9]{10}" title="Vui lòng nhập đúng số điện thoại" required>
+            </div>
+            <div class="col-12">
+                <label for="ReceiverAddress" class="form-label">Địa Chỉ</label>
+                <input type="text" class="form-control" name="ReceiverAddress" id="ReceiverAddress" title="Vui lòng điền địa chỉ người nhận" required>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Xác Nhận</button>
+            </div>
+        </form>
+     </div>
+</section>

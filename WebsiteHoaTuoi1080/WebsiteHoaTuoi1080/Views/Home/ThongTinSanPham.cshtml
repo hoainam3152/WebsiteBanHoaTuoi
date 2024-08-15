@@ -1,0 +1,139 @@
+﻿@model WebsiteHoaTuoi1080.Models.FlowerDetail
+
+@{
+    ViewBag.Title = @Model.FlowerName;
+    Layout = "~/Views/Shared/_LayoutPageIndexHome.cshtml";
+    WebsiteHoaTuoi1080.Models.FlowerStoreEntities db = new WebsiteHoaTuoi1080.Models.FlowerStoreEntities();
+    int categoryID = ViewBag.CategoryID;
+    var listSP = db.FlowerDetails.Where(csp => csp.CategoryID == categoryID).ToList();
+}
+
+<section class="pb-6 bg-gray-100 draggable" draggable="true" style="margin-top:16px;">
+    <div class="container">
+        <div class="row">
+            <div id="content" class="col">
+                <div class="row mb-3">
+                    <div class="col-sm">
+                        <div class="image magnific-popup">
+                            <img src="/Image/@Model.Path" title="@Model.FlowerName" alt="@Model.FlowerName" class="img-thumbnail mb-3" />
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <h1 class="product-name">@Model.FlowerName</h1>
+                        @{
+                            double gia = @Model.Price;
+                            string formattedGia = gia.ToString("N0") + "VND";
+                        }
+                        <ul class="list-unstyled price-box">
+                            <li><h3><span class="price-new">@formattedGia</span></h3></li>
+                        </ul>
+                        <div class="coupon_box">
+                            <div class="coupon_slider"></div>
+                            <div class="coupon_box_detail"></div>
+                        </div>
+                        <div class="call_us_box">
+                            Gọi ngay: <span class="call-us">1900 633 045</span>
+                        </div>
+                        <div class="call_us_box ship_box">
+                            Vận chuyển: <span class="free-ship">Miễn phí giao hoa khu vực nội thành TP.HCM & Hà Nội</span>
+                            <p class="ship_message">Phí giao hàng: <span class="ship_fee">Miễn phí!</span></p>
+                        </div>
+                        <div id="product">
+                            <form id="form-product" action="@Url.Action("ThemVaoGioHang", "Card")" method="post">
+                                <div class="mb-3">
+                                    <p class="mb-0"><label for="input-quantity" class="form-label">Số lượng</label></p>
+                                    <input type="number" name="soLuongMua" value="1" size="2" id="soLuongMua" class="form-control" /> 
+                                    <input type="hidden" name="maSP" value="@Model.FlowerID" id="maSP" />
+                                    <input type="hidden" name="strURL" value="@Request.Url.ToString()" id="strURL" />
+                                    <p style="margin-top:10px">
+                                        <button type="submit" id="button-cart" class="btn btn-primary btn-lg btn-block">Đặt hàng</button>
+                                        <button type="button" id="dat-nhanh" rel="5300" class="btn btn-primary btn-lg btn-block">Đặt nhanh</button>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="pdp-featured">
+                            <div class="option-box">
+                                <ul>
+                                    <li><img width="40" src="https://shop.dalathasfarm.com/public/dalathasfarm/images/delivery.png"><span>Giao hàng nhanh 2 giờ trong 5km</span></li>
+                                    <li><img width="40" src="https://shop.dalathasfarm.com/public/dalathasfarm/images/present-box.png"><span>Miễn phí thiệp chúc mừng</span></li>
+                                    <li><img width="40" src="https://shop.dalathasfarm.com/public/dalathasfarm/images/eco-nature.png"><span>Đảm bảo hoa tươi trong 3 ngày</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item"><a href="#tab-description" data-bs-toggle="tab" class="nav-link active">Mô tả sản phẩm</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-description" class="tab-pane fade show active mb-4">
+                            <p><span style="font-size:14px">@Model.Describe</span></p>
+                            @{
+                                string[] thanhPhan = @Model.Ingredients.Trim().Split(',');
+                            }
+                            <p><span style="font-size:14px"><strong>@Model.FlowerName được thiết kế từ</strong></span></p>
+                            <ul>
+                                @foreach (var item in @thanhPhan)
+                                {
+                                    <li><span style="font-size:14px">@item</span></li>
+                                }
+                            </ul>
+                            <p><span style="font-size:14px"><strong><em>Lưu ý</em></strong></span></p>
+                            <p><span style="font-size:14px"><em>**Do được làm thủ công, nên sản phẩm ngoài thực tế sẽ có đôi chút khác biệt so với hình ảnh trên website. Tuy nhiên, Shop bán hoa Loopple cam kết hoa sẽ giống khoảng 80% so với hình ảnh.</em></span></p>
+                            <p><span style="font-size:14px"><em>**Vì các loại hoa lá phụ sẽ có tùy vào thời điểm trong năm, Shop bán hoa Loopple đảm bảo các loại hoa chính, các loại hoa lá phụ sẽ thay đổi phù hợp giá cả và thiết kế sản phẩm.</em></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <h3 class="mb-5" spellcheck="false">Sản phẩm liên quan</h3>
+                    @foreach (var item in @listSP)
+                    {
+                        <div class="col-lg-3 mb-lg-0 mb-4">
+                            <div class="card">
+                                <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                                    <a href="/User/ThongTinSanPham/?maSP=@item.FlowerID" class="d-block">
+                                        <img src="/Image/@item.Path" class="img-fluid border-radius-lg shadow">
+                                    </a>
+                                </div>
+                                <div class="card-body pt-3">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <span class="text-sm">Hoa</span>
+                                            <a href="/User/ThongTinSanPham/?maSP=@item.FlowerID">
+                                                <h4 class="card-description font-weight-bolder text-dark mb-4">
+                                                    @item.FlowerName
+                                                </h4>
+                                            </a>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <a href="javascript:;" class="btn btn-link text-dark p-0">
+                                                <i class="fa fa-star text-lg" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        @{
+                        double amount = @item.Price;
+                        string formattedAmount = amount.ToString("N0") + "VND";
+                                        }
+                                        <h5 class="mb-0 font-weight-bolder">@formattedAmount</h5>
+                                    </div>
+                                    @if (Session["user"] != null)
+                                    {
+                                        <button type="button" class="ajax-add-to-cart btn btn-outline-dark mb-0" data-id="@item.FlowerID">Thêm vào giỏ hàng</button>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Login","Account")" class="btn btn-outline-dark mb-0">Thêm vào giỏ hàng</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@Html.Partial("~/Views/Shared/PartialView/_AddToCartScript_PartialView.cshtml")

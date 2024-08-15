@@ -1,0 +1,247 @@
+﻿@model List<WebsiteHoaTuoi1080.Models.FlowerDetail>
+@using System.Data.Entity;
+@using WebsiteHoaTuoi1080.Models;
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_LayoutPageIndexHome.cshtml";
+    FlowerStoreEntities db = new FlowerStoreEntities();
+    List<WebsiteHoaTuoi1080.Models.Category> listDM = db.Categories.ToList();
+}
+
+<header class="draggable" draggable="true">
+    <div class="page-header min-vh-75">
+        <span class="mask bg-gradient-info opacity-4"></span>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 my-auto text-white text-xl-left">
+                    <h1 class="text-dark display-2
+ font-weight-bolder mb-4">
+                        Tìm thấy hạnh phúc của bạn
+                    </h1>
+                    <p class="text-dark mb-0">Giảm giá 50% cho lần đầu đặt hàng</p>
+                    <p class="text-dark font-weight-bolder text-lg">Shop Bán Hoa Loopple</p>
+                    <button type="submit" class="btn bg-gradient-primary mt-3 mb-0">MUA NGAY</button>
+                </div><div class="col-lg-6">
+                    <div class="positio-absolute rounded-circle end-4 top-0 mt-n4 shadow-lg d-xl-block d-none" style="background-image: url('https://images.unsplash.com/photo-1617176756162-447320192d98?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1180&amp;q=80');width: 600px;height: 600px; background-position: center;background-size: cover;">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row bg-white shadow mt-n5 border-radius-lg pb-4 p-3 mx-sm-0 mx-1 position-relative z-index-2">
+            <div class="col-lg-3 col-sm-6 mt-2 mb-lg-0 mb-2">
+                <div class="d-flex align-items-center">
+                    <i class="fa fa-bus fa-2x text-dark" aria-hidden="true"></i>
+                    <div class="ms-3">
+                        <h6 class="mb-0">FREE SHIPPING</h6>
+                        <p class="text-sm mb-0">giao miễn phí các nội thành TP.HCM</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 mt-2 mb-lg-0 mb-2">
+                <div class="d-flex align-items-center">
+                    <i class="fa fa-suitcase fa-2x text-dark" aria-hidden="true"></i>
+                    <div class="ms-3">
+                        <h6 class="mb-0">GIAO NHANH TRONG 90 PHÚT</h6>
+                        <p class="text-sm mb-0">giao nhanh trong 90' khu vực nội thành TP.HCM với bó / lẵng hoa đơn giản.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 mt-2 mb-lg-0 mb-2">
+                <div class="d-flex align-items-center">
+                    <i class="fa fa-coins fa-2x text-dark" aria-hidden="true"></i>
+                    <div class="ms-3">
+                        <h6 class="mb-0">HOA ĐẸP NHƯ HÌNH</h6>
+                        <p class="text-sm mb-0">Cam kết hoa đẹp như hình và giống đến 90% so với hình chụp trên website.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 mt-2 mb-lg-0 mb-2">
+                <div class="d-flex align-items-center">
+                    <i class="fa fa-gift fa-2x text-dark" aria-hidden="true"></i>
+                    <div class="ms-3">
+                        <h6 class="mb-0">PHỤC VỤ 24/24</h6>
+                        <p class="text-sm mb-0">Tận tâm đến từng sản phẩm, từng dịch vụ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="pt-6 pb-4 draggable" draggable="true">
+    @foreach (Category dm in listDM)
+    {
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <h3 class="mb-5" spellcheck="false">@dm.CategoryName</h3>
+                </div>
+                @foreach (var item in @Model)
+                {
+                    if (item.CategoryID == dm.CategoryID)
+                    {
+                        <div class="col-lg-3 mb-lg-0 mb-4">
+                            <div class="card">
+                                <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                                    <a href="/Home/ThongTinSanPham/?maSP=@item.FlowerID" class="d-block">
+                                        <img src="/Image/@item.Path" class="img-fluid border-radius-lg shadow">
+                                    </a>
+                                </div>
+                                <div class="card-body pt-3">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <span class="text-sm">Hoa</span>
+                                            <a href="/Home/ThongTinSanPham/?maSP=@item.FlowerID">
+                                                <h4 class="card-description font-weight-bolder text-dark mb-4">
+                                                    @item.FlowerName
+                                                </h4>
+                                            </a>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <a href="javascript:;" class="btn btn-link text-dark p-0">
+                                                <i class="fa fa-star text-lg" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        @{
+                        double amount = @item.Price;
+                        string formattedAmount = amount.ToString("N0") + "VND";
+                                        }
+                                        <h5 class="mb-0 font-weight-bolder">@formattedAmount</h5>
+                                    </div>
+                                                                        @if (Session["user"] != null)
+{
+                                <button type="button" class="ajax-add-to-cart btn btn-outline-dark mb-0" data-id="@item.FlowerID">Thêm vào giỏ hàng</button>
+}
+                                    else
+                                    {
+                                            <a href="@Url.Action("Login","Account")" class="btn btn-outline-dark mb-0">Thêm vào giỏ hàng</a>
+                                            }
+</div>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="col-12 mt-5 text-center">
+                    <a href="/Home/SanPhamTheoDanhMuc/?maDM=@dm.CategoryID" class="btn bg-gradient-dark">Xem Thêm</a>
+                </div>
+            </div>
+        </div>
+    }
+</section>
+<section class="py-5 draggable bg-gradient-dark" draggable="true">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-3 col-md-6">
+                <div class="info">
+                    <h3 class="mt-2 text-white">VNĐ600M + </h3>
+                    <p class="text-white">Giá trị giao dịch</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="info">
+                    <h3 class="mt-2 text-white">500 + </h3>
+                    <p class="text-white">Sẵn phẩm có sẵn</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="info">
+                    <h3 class="mt-2 text-white">3 + </h3>
+                    <p class="text-white">Hơn 3 năm kinh nghiệm</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="info">
+                    <h3 class="mt-2 text-white">99% </h3>
+                    <p class="text-white">Khách hàng hạnh phúc</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="mt-6 py-5 bg-gradient-dark position-relative draggable" style="background-image:url(https://images.unsplash.com/photo-1516528387618-afa90b13e000?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1770&amp;q=80); background-size: cover; background-position: center center;" draggable="true">
+    <span class="mask bg-gradient-dark opacity-8"></span>
+    <div class="container position-relative z-index-2">
+        <div class="row">
+            <div class="col-md-7 mx-auto text-center">
+                <h3 class="text-white mb-3" spellcheck="false">
+                    Shop Hoa Tươi Loopple
+                </h3>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pb-6 bg-gray-100 draggable" draggable="true">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 class="mb-3">Giới Thiệu Về Shop Hoa Tươi Loopple</h2>
+                        <strong>shop hoa tươi</strong> Shop Hoa Tươi Loopple là một trong những tiệm hoa tươi uy tín nhất tại TP HCM, Việt Nam. Loopple.vn cung cấp dịch vụ đặt hoa online giao tận nơi tại TP HCM, Hà Nội và trên tất cả các tỉnh – thành phố tại Việt Nam. Với hệ thống cửa hàng hoa tươi liên kết rộng khắp tất cả các tỉnh – thành phố trên toàn quốc, Loopple.vn có thể giúp bạn gửi tặng hoa tươi cho người thân ở bất cứ nơi đâu tại Việt Nam. Loopple cam kết mang đến cho bạn những sản phẩm hoa tươi chất lượng cao, với mức giá tốt nhất và dịch chuyên nghiệp nhất khi sử dụng dịch vụ đặt hoa tươi online giao tận nơi tại Loopple.vn.<br>
+                        <br>
+                        <center><iframe class="lozad" data-src="//www.youtube.com/embed/slv6L1Bzk14" width="560" height="315" frameborder="0"></iframe></center>
+                        <br>
+                    </div>
+                    <div class="col-md-6">
+                        <br><br>Shop Hoa Tươi Loopple Được thành lập từ năm 2020 với mục tiêu mang đến cho khách hàng trải nghiệm tuyệt vời về một dịch vụ <strong>đặt hoa online</strong> chuyên nghiệp. Sau hơn 5 năm hoạt động, cửa hàng hoa tươi Loopple đã giúp hàng chục ngàn khách hàng gửi tặng những bó hoa tươi đẹp và đầy ý nghĩa đến những người thân yêu trong tất cả những dịp đặc biệt trong năm.
+                        <br>
+                        <h2 class="mt-3 mb-3">Đặt hoa online giá tốt – Giao nhanh trong 90p</h2>
+                        Nếu bạn đang tìm kiếm một trang website đặt hoa online giao tận nơi thì Loopple.vn là một sự lựa chọn tuyệt vời dành cho bạn. Tại <a href="https://www.Loopple.vn/"><strong>shop hoa tươi</strong></a> Loopple, bạn có thể dễ dàng lựa chọn một mẫu hoa đẹp, ý nghĩa giữa hàng trăm mẫu hoa được thiết kế sẵn để gửi tặng người thân, bạn bè, đối tác trong tất cả các dịp đặc biệt trong năm hay trong những sự kiện như: khai trương, sinh nhật, lễ cưới, lễ tang…<br>
+                        <br>Ngoài những mẫu hoa có sẵn trên website, Shop Hoa Tươi Loopple cũng nhận thiết kế hoa tươi theo yêu cầu với mọi mức giá để đáp ứng mọi nhu cầu của khách hàng. Nhờ thế, việc đặt hoa online tại Flower Corner trở nên nhanh chóng, dễ dàng và đơn giản hơn.<br>
+                        <br>Đặc biệt, với dịch vụ giao hoa nhanh trong 90 phút, shop hoa tươi Loopple sẽ giúp bạn kịp thời gửi tặng một bó hoa tới người thân, bạn bè nếu như bạn cần đặt gấp trong ngày.<br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 class="mb-3">Đặt Hoa Online – Ưu Đãi Hấp Dẫn</h2>
+                        <img title="đặt hoa online tại Shop Hoa Tươi Loopple" class="lozad" data-src="https://8384f55340.vws.vegacdn.vn/image/catalog/New_Dec/dat-hoa-online-tai-shop-hoa-tuoi-Loopple.jpg" width="500" height="335" alt="đặt hoa online tại shop hoa tươi flower corner">
+                        <br><br>Khi đặt hoa online tại Shop Hoa Tươi Loopple, bạn không chỉ được miễn phí giao hàng trong khu vực nội thành TP HCM, tặng kèm thiệp chúc mừng, mà còn được giảm đến 50k cho đơn hàng đầu tiên. Bên cạnh đó, vào mỗi thứ 6 hàng tuần, bạn cũng sẽ được giảm ngay 10% tối đa lên đến 100k với chương trình ưu đãi Thứ 6 vui vẻ. Đặc biệt, những khách hàng cũ cũng sẽ được giảm giá lên đến 10% cho các đơn hàng tiếp theo.<br>
+                        <h2 class="mt-3 mb-3">Đặt Hoa Online mọi lúc, mọi nơi</h2>
+                        Ưu điểm của Shop Hoa Tươi Loopple đó là cho phép bạn đặt hoa tươi gửi tặng người thân dù bạn đang ở bất cứ nơi đâu, vào bất cứ thời điểm nào chỉ với vài thao tác đơn giản ngay trên website <a href="https://www.Loopple.vn/"><strong>flowercorne.vn</strong></a> hoặc trên ứng dụng Flower Corner.<br>
+                        <br>Nếu bạn đang phân vân không biết nên lựa chọn loài hoa nào để phù hợp cho từng sự kiện, bạn có thể chat ngay với các nhân viên tư vấn của Flower Corner để được tư vấn lựa chọn mẫu hoa phù hợp nhất.<br>
+                        <h2 class="mt-3 mb-3">Đặt hoa đơn giản, thanh toán dễ dàng</h2>
+                        Với Shop Hoa Tươi Loopple, thay vì mất hàng giờ chạy xe lòng vòng qua các shop hoa tươi gần đây, thì bạn chỉ cần ngồi một chỗ và thực hiện vài thao tác đơn giản trên ứng dụng hoặc website là đã có ngay một mẫu hoa thật đẹp để tặng vợ, bạn gái, người thân hay đối tác. Nếu vẫn cảm thấy chưa yên tâm về chất lượng hoa, bạn có thể yêu cầu nhân viên của Loopple chụp và gửi hình hoa để duyệt trước khi giao.<br>
+                        <br>Shop Hoa Tươi Loopple cung cấp cho bạn nhiều lựa chọn về phương thức thanh toán từ: COD, chuyển khoản ngân hàng, thanh toán qua thẻ visa, master card, Paypal… để bạn có thể dễ dàng đặt hoa mà không gặp phải bất cứ trở ngại nào.<br>
+                    </div>
+                    <div class="col-md-6">
+                        <h2 class="mb-3">Danh mục sản phẩm của Shop Hoa Tươi Loopple</h2>
+                        Đến với Shop Hoa Tươi Loopple, bạn có thể thoải mái lựa chọn giữa hơn 500+ mẫu hoa tươi được thiết kế sẵn theo các chủ đề như:<br>
+                        <ul>
+                            <li><a href="https://www.flowercorner.vn/hoa-chuc-mung-sinh-nhat"><strong>Hoa sinh nhật</strong></a>: Hoa tặng sinh nhật vợ, bạn gái, ba mẹ, anh chị, bạn bè, đối tác hay đồng nghiệp.</li>
+                            <li><a href="https://www.flowercorner.vn/hoa-khai-truong"><strong>Hoa khai trương</strong></a>: hoa chúc mừng khai trương cửa hàng, công ty.</li>
+                            <li><strong><a href="https://www.flowercorner.vn/hoa-cuoi-cam-tay">Hoa cưới</a></strong>: hoa cầm tay cô dâu, hoa cài áo chú rể..</li>
+                            <li><a href="https://www.flowercorner.vn/hoa-tang-tot-nghiep"><strong>Hoa tốt nghiệp</strong></a>: hoa tặng bạn bè, người thân trong lễ tốt nghiệp.</li>
+                            <li><a href="https://www.flowercorner.vn/hoa-tang-le"><strong>Hoa tang lễ</strong></a>: hoa chia buồn để gửi tới các đám tang.</li>
+                            <li><a href="https://www.flowercorner.vn/hoa-chuc-mung"><strong>Hoa chúc mừng</strong></a> các dịp đặc biệt: Valentine, ngày của mẹ, ngày của cha, ngày quốc tế phụ nữ 8-3, ngày nhà giáo Việt Nam 20/11….</li>
+                        </ul>
+                        <br>Đặc biệt, ngoài những mẫu hoa được thiết kế từ các loài hoa trong nước, <i>shop hoa tươi</i> Loopple cũng cung cấp các mẫu hoa nhập khẩu cao cấp, sang trọng.
+                        <br>
+                        <h3 class="mt-3 mb-3">Tại sao nên chọn Shop Hoa Tươi Loopple</h3>
+                        Không khó để bạn tìm được một cửa hàng hoa cung cấp dịch vụ đặt hoa online giao tận nơi. Vậy tại sao bạn nên sử dụng dịch vụ điện hoa (Flower Delivery) của Shop Hoa Tươi Loopple?
+                        <ul>
+                            <li>Hoa đẹp, thiết kế đa dạng phù hợp với tất cả sự kiện.</li>
+                            <li>Thiết kế theo yêu cầu của khách hàng.</li>
+                            <li>Gửi hình hoa trước khi giao.</li>
+                            <li>Đội ngũ florists chuyên nghiệp với nhiều năm kinh nghiệm.</li>
+                        </ul>
+                        <h3 class="mt-3 mb-3">Cam kết từ Shop Hoa Tươi Loopple</h3>
+                        Shop Hoa Tươi Loopple hiểu rằng, hoa tươi dù không mang nhiều giá trị về mặt vật chất, nhưng lại có ý nghĩa rất lớn về mặt tinh thần. Mỗi một bó hoa gửi đi gửi gắm rất nhiều tình cảm, thông điệp yêu thương mà bạn muốn gửi đến những người thân. Chính vì thế, Flower Corner luôn nỗ lực nâng cao chất lượng sản phẩm và dịch vụ để mang đến bạn những trải nghiệm tuyệt vời nhất khi sử dụng dịch vụ của Flower Corner. Shop hoa tươi Flower Corner cam kết:
+                        <ul>
+                            <li>Chỉ sử dụng hoa tươi mới nhập về trong ngày.</li>
+                            <li>Hoa đẹp và 90% giống như hình.</li>
+                            <li>Giao hoa nhanh, đúng giờ.</li>
+                        </ul>
+                        Nếu bạn đang cần đặt hoa để gửi tặng người thân trong những dịp đặc biệt, gọi ngay 1900 633 045 để được tư vấn hoặc đặt hoa giao nhanh với Shop Hoa Tươi Loopple!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+@Html.Partial("~/Views/Shared/PartialView/_AddToCartScript_PartialView.cshtml")
